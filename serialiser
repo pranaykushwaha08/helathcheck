@@ -1,0 +1,15 @@
+from rest_framework import serializers
+from hospital.models import Hospital_Information, Patient, User 
+from doctor.models import Doctor_Information
+
+# Serialization: Convert model instances into JSON format for API usage
+class HospitalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Hospital_Information
+        fields = '__all__'
+        read_only_fields = ['hospital_id']  # Assuming it's an AutoField
+
+    def validate_name(self, value):
+        if not value:
+            raise serializers.ValidationError("Hospital name cannot be empty.")
+        return value
